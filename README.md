@@ -9,6 +9,24 @@ version-controlled and destroyable with a single command.
 
 ---
 
+## Architecture
+
+```mermaid
+flowchart TB
+    TF[Terraform CLI] -->|apply| AWS[(AWS Provider)]
+    AWS --> VPC[VPC 10.0.0.0/16]
+    VPC --> SUB[Public Subnet]
+    VPC --> IGW[Internet Gateway]
+    SUB --> RT[Route Table - 0.0.0.0/0 to IGW]
+    SUB --> SG[Security Group - HTTP 80 + SSH restricted]
+    SG --> EC2[EC2 Web Server]
+    EC2 --> OUT[Output: web_url / public_ip]
+```
+
+> Full diagram details: [ARCHITECTURE.md](ARCHITECTURE.md)
+
+---
+
 ## Skills Demonstrated
 - **Terraform** — providers, resources, variables, outputs, state
 - **AWS** — VPC, subnet, IGW, route table, security group, EC2
